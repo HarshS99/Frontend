@@ -13,8 +13,8 @@ export function ApplicationLayout({ children, maxWidth }: ApplicationLayoutProps
       </header>
 
       {/* Content */}
-      <main className="grow print:p-0 print:m-0">
-        <div className="background m-2 h-full rounded-xl p-6 print:p-0 print:m-0">
+      <main className="grow print:m-0 print:p-0">
+        <div className="background m-2 h-full rounded-xl p-6 print:m-0 print:p-0">
           <div className="mx-auto h-full" style={{ maxWidth: maxWidth ?? '72rem' }}>
             {children}
           </div>

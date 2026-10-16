@@ -51,9 +51,8 @@ export const loadingPorts: PortOption[] = [
   { code: 'INNSA1', name: 'Nhava Sheva', countryCode: 'IN' },
   { code: 'INMUN1', name: 'Mundra', countryCode: 'IN' },
   { code: 'INMAA1', name: 'Chennai', countryCode: 'IN' },
-  { code: 'INBOM4', name: 'Mumbai Air Cargo', countryCode: 'IN' },
+  { code: 'INBOM4', name: 'Mumbai Air Cargo', countryCode: 'IN' }
 ]
-
 
 export const ports: PortOption[] = [
   // { code: 'INNSA1', name: 'Nhava Sheva', countryCode: 'IN' },
@@ -328,7 +327,7 @@ export function portCountry(code?: string) {
 }
 
 export function lineTotal(item: BillItemForm) {
-  if (item.lineTotal != null && String(item.lineTotal).trim() !== '') return Number(item.lineTotal)
+  if (item.lineTotal != null && item.lineTotal.trim() !== '') return Number(item.lineTotal)
   return Number(item.quantity) * Number(item.unitPrice)
 }
 
@@ -343,7 +342,10 @@ function optionalNumber(value?: any) {
 
 // Form values contain only editable fields. Resolve references and calculated values at the save boundary.
 export function toShippingBillPayload(values: ShippingBillFormValues) {
-  const dischargePort = typeof values.dischargePort === 'string' && values.dischargePort.trim() ? values.dischargePort : values.finalDestinationPort
+  const dischargePort =
+    typeof values.dischargePort === 'string' && values.dischargePort.trim()
+      ? values.dischargePort
+      : values.finalDestinationPort
   return {
     shipping_bill: {
       job_number: optionalNumber(values.jobNumber),
@@ -408,7 +410,10 @@ export function toShippingBillPayload(values: ShippingBillFormValues) {
       contract_number: invoice.contractNumber,
       nature_of_payment: invoice.natureOfPayment,
       period_of_payment: optionalNumber(invoice.periodOfPayment),
-      invoice_total: invoice.invoiceTotal != null && String(invoice.invoiceTotal).trim() !== '' ? Number(invoice.invoiceTotal) : invoiceTotal(invoice),
+      invoice_total:
+        invoice.invoiceTotal != null && invoice.invoiceTotal.trim() !== ''
+          ? Number(invoice.invoiceTotal)
+          : invoiceTotal(invoice),
       items: invoice.items.map((item, itemIndex) => ({
         item_serial_number: itemIndex + 1,
         ritc_code: item.ritcCode,
@@ -444,13 +449,13 @@ export function toShippingBillPayload(values: ShippingBillFormValues) {
       invoice.items.flatMap((item, itemIndex) =>
         item.thirdPartyItem && item.itemThirdPartyId
           ? [
-            {
-              invoice_serial_number: invoiceIndex + 1,
-              item_serial_number: itemIndex + 1,
-              third_party: Number(item.itemThirdPartyId),
-              third_party_address: optionalNumber(item.itemThirdPartyBranchId)
-            }
-          ]
+              {
+                invoice_serial_number: invoiceIndex + 1,
+                item_serial_number: itemIndex + 1,
+                third_party: Number(item.itemThirdPartyId),
+                third_party_address: optionalNumber(item.itemThirdPartyBranchId)
+              }
+            ]
           : []
       )
     ),
@@ -458,17 +463,17 @@ export function toShippingBillPayload(values: ShippingBillFormValues) {
       invoice.items.flatMap((item, itemIndex) =>
         item.ar4Number
           ? [
-            {
-              invoice_serial_number: invoiceIndex + 1,
-              item_serial_number: itemIndex + 1,
-              ar4_number: item.ar4Number,
-              ar4_date: item.ar4Date,
-              commissionerate: item.ar4Commissionerate,
-              division: item.ar4Division,
-              range: item.ar4Range,
-              remarks: item.ar4Remarks
-            }
-          ]
+              {
+                invoice_serial_number: invoiceIndex + 1,
+                item_serial_number: itemIndex + 1,
+                ar4_number: item.ar4Number,
+                ar4_date: item.ar4Date,
+                commissionerate: item.ar4Commissionerate,
+                division: item.ar4Division,
+                range: item.ar4Range,
+                remarks: item.ar4Remarks
+              }
+            ]
           : []
       )
     ),
@@ -494,7 +499,9 @@ export function toShippingBillPayload(values: ShippingBillFormValues) {
       document_type_code: document.documentTypeCode,
       document_reference_number: document.documentReferenceNumber,
       image_reference_number: document.imageReferenceNumber,
-      document_issue_date: document.documentIssueDate ? Math.floor(new Date(document.documentIssueDate).getTime() / 86400000) : undefined,
+      document_issue_date: document.documentIssueDate
+        ? Math.floor(new Date(document.documentIssueDate).getTime() / 86400000)
+        : undefined,
       document_expiry_date: document.documentExpiryDate,
       place_of_issue: document.placeOfIssue,
       issuing_party_code: document.issuingPartyCode,

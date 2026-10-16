@@ -4,3 +4,4 @@ dist/
 /.tw-patch/
 /.env.development.local
 .DS_Store
+coverage/

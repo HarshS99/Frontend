@@ -575,12 +575,12 @@ export function deleteParty(kind: 'exporter' | 'business', id: number) {
     kind === 'exporter'
       ? bill.values.exporterId === String(id)
       : bill.values.consigneeId === String(id) ||
-      bill.values.invoices.some(
-        (invoice) =>
-          invoice.buyerId === String(id) ||
-          invoice.thirdPartyId === String(id) ||
-          invoice.items.some((item) => item.itemThirdPartyId === String(id))
-      )
+        bill.values.invoices.some(
+          (invoice) =>
+            invoice.buyerId === String(id) ||
+            invoice.thirdPartyId === String(id) ||
+            invoice.items.some((item) => item.itemThirdPartyId === String(id))
+        )
   )
   if (inUse) return false
   publish({
@@ -596,12 +596,12 @@ export function deleteBranch(kind: 'exporter' | 'business', ownerId: number, id:
     kind === 'exporter'
       ? bill.values.exporterBranchId === String(id)
       : bill.values.consigneeBranchId === String(id) ||
-      bill.values.invoices.some(
-        (invoice) =>
-          invoice.buyerBranchId === String(id) ||
-          invoice.thirdPartyBranchId === String(id) ||
-          invoice.items.some((item) => item.itemThirdPartyBranchId === String(id))
-      )
+        bill.values.invoices.some(
+          (invoice) =>
+            invoice.buyerBranchId === String(id) ||
+            invoice.thirdPartyBranchId === String(id) ||
+            invoice.items.some((item) => item.itemThirdPartyBranchId === String(id))
+        )
   )
   if (inUse) return false
   if (kind === 'exporter') {
@@ -637,7 +637,7 @@ export function saveBill(values: ShippingBillFormValues, id?: number) {
 }
 
 export function syncBillsFromApi(apiBills: SavedBill[]) {
-  if (!apiBills || !apiBills.length) return
+  if (!apiBills?.length) return
   const existingMap = new Map<number, SavedBill>()
   // Put existing bills first
   for (const b of snapshot.bills) {

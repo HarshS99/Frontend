@@ -3,8 +3,8 @@ import { init } from 'core/init'
 import { queryClient, QueryClientProvider, ReactQueryDevtools } from 'core/react-query'
 import { addInterceptors } from 'core/request'
 import { initRouter } from 'core/routing'
-import { Router } from 'core/routing/route-utils'
 import { routeToReactElement } from 'core/routing/render-route'
+import { Router } from 'core/routing/route-utils'
 import { ToastManager } from 'core/toast-manager-component'
 import { SmallScreenWarning } from 'ui/notify/small-screen-warning'
 import 'ui/styles.css'
@@ -19,7 +19,7 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <Router renderRoute={routeToReactElement} />
       <ToastManager />
-      {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+      {}
       {import.meta.env.DEV && ReactQueryDevtools && <ReactQueryDevtools initialIsOpen={true} client={queryClient} />}
       <ConfirmDeleteDialog />
       <SmallScreenWarning />

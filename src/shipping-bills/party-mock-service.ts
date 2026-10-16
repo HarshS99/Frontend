@@ -42,9 +42,7 @@ export const partyMockService = {
   async searchConsignees(query: string): Promise<Business[]> {
     const { businesses } = getDemoData()
     const q = query.trim().toLowerCase()
-    const filtered = businesses.filter(
-      (item) => item.isConsignee && item.name.toLowerCase().includes(q)
-    )
+    const filtered = businesses.filter((item) => item.isConsignee && item.name.toLowerCase().includes(q))
     return delay(filtered)
   },
 
@@ -69,7 +67,10 @@ export const partyMockService = {
    */
   async getExporterById(exporterId: string): Promise<Exporter | undefined> {
     const { exporters } = getDemoData()
-    return delay(exporters.find((item) => String(item.id) === exporterId), 100)
+    return delay(
+      exporters.find((item) => String(item.id) === exporterId),
+      100
+    )
   },
 
   /**
@@ -77,7 +78,10 @@ export const partyMockService = {
    */
   async getConsigneeById(consigneeId: string): Promise<Business | undefined> {
     const { businesses } = getDemoData()
-    return delay(businesses.find((item) => String(item.id) === consigneeId), 100)
+    return delay(
+      businesses.find((item) => String(item.id) === consigneeId),
+      100
+    )
   },
 
   /**
@@ -97,9 +101,7 @@ export const partyMockService = {
    */
   async searchDestinationPorts(query: string): Promise<PortOption[]> {
     const q = query.trim().toLowerCase()
-    const filtered = ports.filter(
-      (port) => port.name.toLowerCase().includes(q) || port.code.toLowerCase().includes(q)
-    )
+    const filtered = ports.filter((port) => port.name.toLowerCase().includes(q) || port.code.toLowerCase().includes(q))
     return delay(filtered)
   },
 
@@ -107,6 +109,27 @@ export const partyMockService = {
    * Fetch Port by Code (used for label resolution)
    */
   async getPortByCode(code: string): Promise<PortOption | undefined> {
-    return delay(ports.find((port) => port.code === code), 100)
+    const allPorts = [...loadingPorts, ...ports]
+    return delay(
+      allPorts.find((port) => port.code === code),
+      100
+    )
+  },
+
+  /**
+   * Fetch Marks and Numbers options for a specific Exporter ID
+   */
+  async getMarksAndNumbers(exporterId: string): Promise<{ value: string; label: string }[]> {
+    const marksByExporter: Record<string, { value: string; label: string }[]> = {
+      '1000': [
+        { value: 'AARAV TEXTILES / MADE IN INDIA', label: 'AARAV TEXTILES / MADE IN INDIA' },
+        { value: 'ATPL / LOT NO. ______', label: 'ATPL / LOT NO. ______' }
+      ],
+      '1002': [
+        { value: 'BLUE HARBOR EXPORTS / INDIA', label: 'BLUE HARBOR EXPORTS / INDIA' },
+        { value: 'BHE / SHIPPING MARKS AS PER INVOICE', label: 'BHE / SHIPPING MARKS AS PER INVOICE' }
+      ]
+    }
+    return delay(marksByExporter[exporterId] ?? [], 150)
   }
 }
